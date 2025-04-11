@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Padrões Operacionais em Ocorrências Aeronáuticas</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      height: 100vh;
+    }
+    nav {
+      width: 260px;
+      background-color: #003366;
+      color: white;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    }
+    nav h2 {
+      font-size: 18px;
+      margin-top: 0;
+    }
+    nav ul {
+      list-style: none;
+      padding: 0;
+    }
+    nav ul li {
+      margin: 10px 0;
+    }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+    main {
+      flex: 1;
+      padding: 30px;
+      overflow-y: auto;
+      background-color: #f4f4f4;
+    }
+    section {
+      display: none;
+    }
+    section.active {
+      display: block;
+    }
+    iframe {
+      width: 100%;
+      height: 500px;
+      border: 1px solid #ccc;
+      margin-top: 10px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      font-size: 16px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <h2>Ocorrências</h2>
+    <ul>
+      <li><a onclick="showSection('geral')">Todas Ocorrências</a></li>
+      <li><a onclick="showSection('acidente')">Acidente</a></li>
+      <li><a onclick="showSection('incidenteGrave')">Incidente Grave</a></li>
+      <li><a onclick="showSection('incidente')">Incidente</a></li>
+      <li><a onclick="showSection('cluster')">Clusterização</a></li>
+      <li><a onclick="showSection('conclusao')">Conclusão</a></li>
+    </ul>
+  </nav>
+  <main>
+    <section id="geral" class="active">
+      <h1>Regras - Ocorrências Gerais</h1>
+      <input type="text" placeholder="Buscar palavra-chave..." oninput="filterContent(event, 'geral')">
+      <iframe src="regras_associacao_todas_variaveis.xlsx"></iframe>
+    </section>
+    <section id="acidente">
+      <h1>Regras - Acidente</h1>
+      <input type="text" placeholder="Buscar palavra-chave..." oninput="filterContent(event, 'acidente')">
+      <iframe src="regras_associacao_acidente.xlsx"></iframe>
+    </section>
+    <section id="incidenteGrave">
+      <h1>Regras - Incidente Grave</h1>
+      <input type="text" placeholder="Buscar palavra-chave..." oninput="filterContent(event, 'incidenteGrave')">
+      <iframe src="regras_associacao_incidente_grave.xlsx"></iframe>
+    </section>
+    <section id="incidente">
+      <h1>Regras - Incidente</h1>
+      <input type="text" placeholder="Buscar palavra-chave..." oninput="filterContent(event, 'incidente')">
+      <iframe src="regras_associacao_incidente.xlsx"></iframe>
+    </section>
+    <section id="cluster"><h1>Resumo de Clusterização</h1><p>Clusters revelaram padrões distintos por tipo de ocorrência...</p></section>
+    <section id="conclusao"><h1>Conclusão</h1><p>Integração entre regras de associação e clusterização revelou padrões robustos...</p></section>
+  </main>
+  <script>
+    function showSection(id) {
+      document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+    function filterContent(event, id) {
+      const keyword = event.target.value.toLowerCase();
+      const iframe = document.querySelector(`#${id} iframe`);
+      iframe.style.border = keyword ? "2px solid red" : "1px solid #ccc";
+    }
+  </script>
+</body>
+</html>
