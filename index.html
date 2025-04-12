@@ -1,64 +1,39 @@
-<section id="incidente">
-  <h1>Regras - Incidente</h1>
-  <div class="resumo-insight">
-    <strong>Insight:</strong> Incidentes tendem a envolver falhas sem danos, com destaque para colisão com aves no pouso em aeronaves comerciais. Essas ocorrências têm alta confiança e são recorrentes em operações regulares.
-  </div>
-  <input type="text" id="buscaIncidente" placeholder="Buscar palavra-chave..." onkeyup="filtrarTabela('tabelaIncidente', 'buscaIncidente')">
-  <button class="export" onclick="exportarCSV('tabelaIncidente')">Exportar CSV</button>
-  <table id="tabelaIncidente">
-    <thead>
-      <tr>
-        <th>Antecedente</th>
-        <th>Consequente</th>
-        <th>Suporte</th>
-        <th>Confiança</th>
-        <th>Lift</th>
-        <th>Conviction</th>
-        <th>Jaccard</th>
-        <th>Certainty</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>tipo_subtipo_COLISÃO COM AVE, fase_voo_POUSO</td>
-        <td>classificacao_INCIDENTE, danos_LEVE</td>
-        <td>0.0139</td>
-        <td>61.0%</td>
-        <td>10.55</td>
-        <td>2.43</td>
-        <td>0.31</td>
-        <td>0.58</td>
-      </tr>
-    </tbody>
-  </table>
-</section>
-<script>
-function filtrarTabela(tabelaId, inputId) {
-  const input = document.getElementById(inputId);
-  const filter = input.value.toLowerCase();
-  const table = document.getElementById(tabelaId);
-  const rows = table.getElementsByTagName("tr");
-  for (let i = 1; i < rows.length; i++) {
-    const row = rows[i];
-    const text = row.textContent.toLowerCase();
-    row.style.display = text.includes(filter) ? "" : "none";
-  }
-}
-function exportarCSV(tabelaId) {
-  const table = document.getElementById(tabelaId);
-  let csv = "";
-  const rows = table.querySelectorAll("tr");
-  rows.forEach(row => {
-    const cols = row.querySelectorAll("td, th");
-    const linha = Array.from(cols).map(col => `"${col.innerText}"`).join(",");
-    csv += linha + "\n";
-  });
-  const blob = new Blob([csv], { type: 'text/csv' });
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
-  link.download = tabelaId + '.csv';
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-}
-</script>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Site Ocorrências</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    .resumo-insight {
+      background: #fff3cd;
+      border-left: 5px solid #ffc107;
+      padding: 12px;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      font-size: 15px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border: 1px solid #ddd;
+    }
+    .export {
+      margin: 10px 0;
+      padding: 6px 12px;
+    }
+  </style>
+</head>
+<body>
+<!-- Conteúdo será colado a partir do textdoc["content"] real -->
+
+</body>
+</html>
