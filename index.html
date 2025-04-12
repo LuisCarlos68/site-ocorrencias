@@ -3,71 +3,137 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <title>Site Ocorrências Aeronáuticas</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ocorrências Aeronáuticas - Interativo</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
+    body { margin: 0; font-family: Arial, sans-serif; display: flex; }
+    nav {
+      width: 240px; background-color: #003366; color: white; padding: 20px;
+      height: 100vh; position: fixed; overflow-y: auto;
     }
-    h1 {
-      color: #003366;
+    nav h2 { font-size: 18px; margin-top: 0; }
+    nav a {
+      display: block; color: white; text-decoration: none; margin: 10px 0;
     }
+    nav a:hover { text-decoration: underline; }
+    main {
+      margin-left: 240px; padding: 30px; flex: 1; background-color: #f4f4f4;
+    }
+    section { display: none; }
+    section.active { display: block; }
     .resumo-insight {
-      background: #fff3cd;
-      border-left: 5px solid #ffc107;
-      padding: 12px;
-      margin-bottom: 20px;
+      background: #fff3cd; padding: 12px; border-left: 5px solid #ffc107; margin-bottom: 20px;
+    }
+    input[type="text"], button.export {
+      padding: 8px; margin: 5px 0; font-size: 15px;
     }
     table {
-      border-collapse: collapse;
-      width: 100%;
-      background: white;
+      width: 100%; border-collapse: collapse; background: white; margin-top: 10px;
     }
-    th, td {
-      padding: 8px;
-      border: 1px solid #ccc;
-    }
-    th {
-      background-color: #f0f0f0;
-    }
-    .export {
-      background: #003366;
-      color: white;
-      padding: 8px 12px;
-      border: none;
-      cursor: pointer;
-      border-radius: 4px;
-      margin-bottom: 12px;
+    th, td { border: 1px solid #ccc; padding: 8px; }
+    th { background: #eee; }
+    button.export {
+      background: #003366; color: white; border: none; border-radius: 4px; cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <h1>Site Ocorrências - Exemplo Funcional</h1>
-  <div class="resumo-insight">
-    <strong>Insight:</strong> Esta versão está funcional para publicação no GitHub Pages com estrutura completa. Gráficos e filtros podem ser reinseridos conforme desejado.
-  </div>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Antecedente</th>
-        <th>Consequente</th>
-        <th>Suporte</th>
-        <th>Confiança</th>
-        <th>Lift</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>fase_voo_POUSO, COLISÃO COM AVE</td>
-        <td>INCIDENTE</td>
-        <td>1.3%</td>
-        <td>61.0%</td>
-        <td>10.55</td>
-      </tr>
-    </tbody>
-  </table>
+<nav>
+  <h2>Ocorrências</h2>
+  <a onclick="mostrar('geral')">Todas Ocorrências</a>
+  <a onclick="mostrar('acidente')">Acidente</a>
+  <a onclick="mostrar('grave')">Incidente Grave</a>
+  <a onclick="mostrar('incidente')">Incidente</a>
+  <a onclick="mostrar('conclusao')">Conclusão</a>
+</nav>
+<main>
+  <section id="geral" class="active">
+    <h1>Todas Ocorrências</h1>
+    <div class="resumo-insight"><strong>Insight:</strong> Colisão com aves em fase de pouso resultam predominantemente em incidentes com danos leves.</div>
+    <input id="filtroGeral" onkeyup="filtrar('tabelaGeral','filtroGeral')" placeholder="Buscar...">
+    <button class="export" onclick="exportar('tabelaGeral')">Exportar CSV</button>
+    <table id="tabelaGeral"><thead><tr><th>Antecedente</th><th>Consequente</th><th>Lift</th></tr></thead><tbody><tr><td>COLISÃO COM AVE, POUSO</td><td>INCIDENTE</td><td>10.55</td></tr></tbody></table>
+    <canvas id="graficoGeral" height="200"></canvas>
+  </section>
+  <section id="acidente">
+    <h1>Acidente</h1>
+    <div class="resumo-insight"><strong>Insight:</strong> Acidentes ocorrem com perda de controle em pouso em aeronaves de pequeno porte.</div>
+    <canvas id="graficoAcidente" height="200"></canvas>
+  </section>
+  <section id="grave">
+    <h1>Incidente Grave</h1>
+    <div class="resumo-insight"><strong>Insight:</strong> Excursão de pista e falhas de sistema geram incidentes graves, geralmente com danos leves.</div>
+    <canvas id="graficoGrave" height="200"></canvas>
+  </section>
+  <section id="incidente">
+    <h1>Incidente</h1>
+    <div class="resumo-insight"><strong>Insight:</strong> Incidentes predominam em operações regulares com motor a jato e colisão com aves.</div>
+    <canvas id="graficoIncidente" height="200"></canvas>
+  </section>
+  <section id="conclusao">
+    <h1>Conclusão</h1>
+    <div class="resumo-insight">
+      <strong>Destaques:</strong>
+      <ul>
+        <li>Regras com maior Lift envolvem <b>COLISÃO COM AVE</b></li>
+        <li>Acidentes concentram-se no <b>pouso</b> com falhas mecânicas</li>
+        <li><b>Incidentes Graves</b> ocorrem em pousos mal sucedidos ou falhas leves</li>
+      </ul>
+    </div>
+  </section>
+</main>
+<script>
+function mostrar(id) {
+  document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function filtrar(tab, inp) {
+  const val = document.getElementById(inp).value.toLowerCase();
+  document.querySelectorAll(`#${tab} tbody tr`).forEach(row =>
+    row.style.display = row.textContent.toLowerCase().includes(val) ? '' : 'none');
+}
+function exportar(tab) {
+  const rows = Array.from(document.querySelectorAll(`#${tab} tr`));
+  const csv = rows.map(row => Array.from(row.cells).map(cell => `"${cell.innerText}"`).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = tab + '.csv';
+  a.click();
+}
+new Chart(document.getElementById('graficoGeral'), {
+  type: 'bar',
+  data: {
+    labels: ['COLISÃO COM AVE'],
+    datasets: [{ label: 'Lift', data: [10.55], backgroundColor: '#ff6600' }]
+  },
+  options: { plugins: { title: { display: true, text: 'Lift - Todas Ocorrências' } } }
+});
+new Chart(document.getElementById('graficoAcidente'), {
+  type: 'bar',
+  data: {
+    labels: ['POUSO FALHA MOTOR'],
+    datasets: [{ label: 'Confiança (%)', data: [70.4], backgroundColor: '#cc0000' }]
+  },
+  options: { plugins: { title: { display: true, text: 'Acidente - Confiança' } } }
+});
+new Chart(document.getElementById('graficoGrave'), {
+  type: 'bar',
+  data: {
+    labels: ['EXCURSÃO DE PISTA'],
+    datasets: [{ label: 'Suporte (%)', data: [0.97], backgroundColor: '#f0ad4e' }]
+  },
+  options: { plugins: { title: { display: true, text: 'Incidente Grave - Suporte' } } }
+});
+new Chart(document.getElementById('graficoIncidente'), {
+  type: 'bar',
+  data: {
+    labels: ['COLISÃO COM AVE'],
+    datasets: [{ label: 'Lift', data: [10.55], backgroundColor: '#007bff' }]
+  },
+  options: { plugins: { title: { display: true, text: 'Incidente - Lift' } } }
+});
+</script>
 </body>
 </html>
