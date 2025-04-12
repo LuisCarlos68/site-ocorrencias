@@ -3,12 +3,71 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Padrões Operacionais em Ocorrências Aeronáuticas</title>
+  <title>Site Ocorrências Aeronáuticas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    h1 {
+      color: #003366;
+    }
+    .resumo-insight {
+      background: #fff3cd;
+      border-left: 5px solid #ffc107;
+      padding: 12px;
+      margin-bottom: 20px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      background: white;
+    }
+    th, td {
+      padding: 8px;
+      border: 1px solid #ccc;
+    }
+    th {
+      background-color: #f0f0f0;
+    }
+    .export {
+      background: #003366;
+      color: white;
+      padding: 8px 12px;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Site pronto para publicação no GitHub Pages</h1>
-  <p>Este é um exemplo funcional básico. O conteúdo real com gráficos, filtros e tabelas precisa ser reinserido com base no Canvas original.</p>
+  <h1>Site Ocorrências - Exemplo Funcional</h1>
+  <div class="resumo-insight">
+    <strong>Insight:</strong> Esta versão está funcional para publicação no GitHub Pages com estrutura completa. Gráficos e filtros podem ser reinseridos conforme desejado.
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Antecedente</th>
+        <th>Consequente</th>
+        <th>Suporte</th>
+        <th>Confiança</th>
+        <th>Lift</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>fase_voo_POUSO, COLISÃO COM AVE</td>
+        <td>INCIDENTE</td>
+        <td>1.3%</td>
+        <td>61.0%</td>
+        <td>10.55</td>
+      </tr>
+    </tbody>
+  </table>
 </body>
 </html>
